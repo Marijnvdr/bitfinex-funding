@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'bitfinex-funding',
+    podModulePrefix: 'bitfinex-funding/pods',
     environment,
     rootURL: '/',
     locationType: 'auto',
