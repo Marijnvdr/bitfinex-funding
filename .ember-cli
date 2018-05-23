@@ -1,4 +1,3 @@
 {
-  "disableAnalytics": false,
-  "port": 8080
+  "disableAnalytics": false
 }
