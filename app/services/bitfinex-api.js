@@ -42,6 +42,26 @@ export default AjaxService.extend({
     return this.getAuthenticatedInfo(apiPath, data).then(response => {
       let amount = Math.abs(response.response[0]);
       return amount.toFixed(precision);
+    }).catch(() => {
+      return 'ERR';
+    });
+  },
+
+  getActiveFundingOrders(currency) {
+    const apiPath = `v2/auth/r/funding/offers/f${currency}`;
+
+    return this.getAuthenticatedInfo(apiPath, {}).then(response => {
+      let openOffers = '';
+      for (let offerInfo of response.response) {
+        openOffers = openOffers + `${offerInfo[4]} ${currency} status: ${offerInfo[10]} ; `;
+      }
+      if (openOffers == '') {
+        openOffers = 'none';
+      }
+     return openOffers;
+
+    }).catch(() => {
+      return 'ERR';
     });
   }
 });

@@ -9,7 +9,9 @@ export default Route.extend({
   model() {
     return hash({
       amountUsd: this.get('ajax').getFreeFunding('USD'),
-      amountZec: this.get('ajax').getFreeFunding('ZEC', 2)
+      amountZec: this.get('ajax').getFreeFunding('ZEC', 2),
+      openOffersZec: this.get('ajax').getActiveFundingOrders('ZEC'),
+      openOffersUsd: this.get('ajax').getActiveFundingOrders('USD')
     });
   }
 });
