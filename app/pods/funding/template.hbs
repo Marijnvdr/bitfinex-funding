@@ -1,3 +1,8 @@
+<h2>Funding wallets</h2>
+{{#each model.fundingWallets as |wallet|}}
+  <p></p>{{wallet.currency}}: {{wallet.amount}}
+{{/each}}
+<hr>
 <h2>Free for funding</h2>
 <h3>USD: {{model.amountUsd}}</h3>
 <h3>ZEC: {{model.amountZec}}</h3>

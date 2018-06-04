@@ -31,6 +31,23 @@ export default AjaxService.extend({
     });
   },
 
+  getFundingWallets() {
+    const apiPath = 'v2/auth/r/wallets';
+
+    return this.getAuthenticatedInfo(apiPath, {}).then(response => {
+      let rawWallets = response.response.filter((w) => w[0] == "funding");
+      return rawWallets.map((w) => {
+        let val = w[2];
+        if (w[1] == "USD") {
+          val = Math.round(val);
+        }
+        return { currency: w[1], amount: val };
+      });
+    }).catch(() => {
+      return [{ currency: "ERR" }];
+    });
+  },
+
   getFreeFunding(currency, precision = 0) {
     const apiPath = 'v2/auth/calc/order/avail';
 
