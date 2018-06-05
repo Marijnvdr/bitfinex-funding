@@ -8,17 +8,26 @@ export default Route.extend({
 
   model() {
     return this.get('ajax').getFundingWallets().then(wallets => {
-      let promises = [];
+      let promisesFree = [];
+      let promisesOrders = [];
       wallets.map((wallet) => {
-        let p = this.get('ajax').getFreeFunding(wallet.currency);
-        promises.push(p);
+        let pf = this.get('ajax').getFreeFunding(wallet.currency);
+        promisesFree.push(pf);
+        let po = this.get('ajax').getActiveFundingOrders(wallet.currency);
+        promisesOrders.push(po);
       });
-      return all(promises).then((values) => {
+      return all(promisesFree).then((values) => {
         for (let i = 0; i < wallets.length; i++) {
           wallets[i].amountFree = values[i];
         }
       }).then(() => {
-        return hash({
+        return all(promisesOrders).then((values) => {
+          for (let i = 0; i < wallets.length; i++) {
+            wallets[i].openOrders = values[i];
+          }
+        })
+        }).then(() => {
+          return hash({
           fundingWallets: wallets
         });
       });

@@ -8,3 +8,7 @@
   <p></p>{{wallet.currency}}: {{wallet.amountFree}}
 {{/each}}
 <hr>
+<h2>Open offers:</h2>
+{{#each model.fundingWallets as |wallet|}}
+  <p></p>{{wallet.currency}}: {{wallet.openOrders}}
+{{/each}}
