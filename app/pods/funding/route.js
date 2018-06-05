@@ -11,7 +11,7 @@ export default Route.extend({
       let promisesFree = [];
       let promisesOrders = [];
       wallets.map((wallet) => {
-        let pf = this.get('ajax').getFreeFunding(wallet.currency);
+        let pf = this.get('ajax').getFreeFunding(wallet.currency, 2);
         promisesFree.push(pf);
         let po = this.get('ajax').getActiveFundingOrders(wallet.currency);
         promisesOrders.push(po);
