@@ -4,12 +4,7 @@
 {{/each}}
 <hr>
 <h2>Free for funding</h2>
-<h3>USD: {{model.amountUsd}}</h3>
-<h3>ZEC: {{model.amountZec}}</h3>
+{{#each model.fundingWallets as |wallet|}}
+  <p></p>{{wallet.currency}}: {{wallet.amountFree}}
+{{/each}}
 <hr>
-<h2>Open offers ZEC:</h2>
-<p>{{model.openOffersZec}}</p>
-<hr>
-<h2>Open offers USD:</h2>
-<p>{{model.openOffersUsd}}</p>
-

@@ -1,18 +1,27 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { hash } from 'rsvp';
+import { hash, all } from 'rsvp';
 
 
 export default Route.extend({
   ajax: service('bitfinex-api'),
 
   model() {
-    return hash({
-      fundingWallets: this.get('ajax').getFundingWallets(),
-      amountUsd: this.get('ajax').getFreeFunding('USD'),
-      amountZec: this.get('ajax').getFreeFunding('ZEC', 2),
-      openOffersZec: this.get('ajax').getActiveFundingOrders('ZEC'),
-      openOffersUsd: this.get('ajax').getActiveFundingOrders('USD')
+    return this.get('ajax').getFundingWallets().then(wallets => {
+      let promises = [];
+      wallets.map((wallet) => {
+        let p = this.get('ajax').getFreeFunding(wallet.currency);
+        promises.push(p);
+      });
+      return all(promises).then((values) => {
+        for (let i = 0; i < wallets.length; i++) {
+          wallets[i].amountFree = values[i];
+        }
+      }).then(() => {
+        return hash({
+          fundingWallets: wallets
+        });
+      });
     });
   }
 });
