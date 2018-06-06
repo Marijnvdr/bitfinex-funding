@@ -48,7 +48,7 @@ export default AjaxService.extend({
     });
   },
 
-  getFreeFunding(currency, precision = 0) {
+  getFreeFunding(currency) {
     const apiPath = 'v2/auth/calc/order/avail';
 
     let currencySymbol = `f${currency}`;
@@ -58,7 +58,11 @@ export default AjaxService.extend({
     };
     return this.getAuthenticatedInfo(apiPath, data).then(response => {
       let amount = Math.abs(response.response[0]);
-      return amount.toFixed(precision);
+      if (currency == "USD") {
+        return amount.toFixed(0);
+      } else {
+        return amount.toFixed(2);
+      }
     }).catch(() => {
       return 'ERR';
     });
