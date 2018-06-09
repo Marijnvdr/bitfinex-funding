@@ -12,3 +12,8 @@
 {{#each model.fundingWallets as |wallet|}}
   <p></p>{{wallet.currency}}: {{wallet.openOrders}}
 {{/each}}
+<hr>
+<h2>Current average rates:</h2>
+{{#each model.currencyRates as |cr|}}
+  <p></p>{{cr.currency}}: {{cr.rate}}%
+{{/each}}

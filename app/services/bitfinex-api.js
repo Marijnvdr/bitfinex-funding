@@ -74,7 +74,8 @@ export default AjaxService.extend({
     return this.getAuthenticatedInfo(apiPath, {}).then(response => {
       let openOffers = '';
       for (let offerInfo of response.response) {
-        openOffers = openOffers + `${offerInfo[4]} ${currency} status: ${offerInfo[10]} ; `;
+        let rate = offerInfo[14] * 100;
+        openOffers = openOffers + `${offerInfo[4]} ${currency} at rate ${rate}% with status: ${offerInfo[10]} ; `;
       }
       if (openOffers == '') {
         openOffers = 'none';
@@ -83,6 +84,21 @@ export default AjaxService.extend({
 
     }).catch(() => {
       return 'ERR';
+    });
+  },
+
+  getCurrentFundingRates(currencies) {
+    let mappedCurrencies = currencies.map((c) => {
+      return `f${c.toUpperCase()}`;
+    });
+    let querystring = mappedCurrencies.join();
+    return this.request(`v2/tickers?symbols=${querystring}`).then((response) => {
+      let rates = [];
+      for (let currencyRate of response) {
+        let rate = currencyRate[1] * 100;
+        rates.push({ currency: currencyRate[0].substr(1), rate: rate.toFixed(4) });
+      }
+      return rates;
     });
   }
 });
