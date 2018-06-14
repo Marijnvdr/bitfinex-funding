@@ -7,7 +7,6 @@ export default Route.extend({
   ajax: service('bitfinex-api'),
 
   async model() {
-    let test = this.get('ajax').getCurrentFundingRates(['btc', 'ltc']);
     let wallets = await this.get('ajax').getFundingWallets();
     let currencies = [];
     for (let wallet of wallets) {
@@ -15,9 +14,14 @@ export default Route.extend({
       wallet.amountFree = await this.get('ajax').getFreeFunding(wallet.currency);
       wallet.openOrders = await this.get('ajax').getActiveFundingOrders(wallet.currency);
     }
+    let funded = [];
+    for (let currency of currencies) {
+      funded.push(await this.get('ajax').getSuppliedFunding(currency));
+    }
 
     return hash({
       fundingWallets: wallets,
+      fundedCurrencies: funded,
       currencyRates: await this.get('ajax').getCurrentFundingRates(currencies)
     });
   }

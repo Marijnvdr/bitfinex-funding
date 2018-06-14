@@ -38,8 +38,10 @@ export default AjaxService.extend({
       let rawWallets = response.response.filter((w) => w[0] == "funding");
       return rawWallets.map((w) => {
         let val = w[2];
-        if (w[1] == "USD") {
+        if (w[1] == "USD" || w[1] == "EUR") {
           val = Math.round(val);
+        } else {
+          val = val.toFixed(6);
         }
         return { currency: w[1], amount: val };
       });
@@ -47,6 +49,28 @@ export default AjaxService.extend({
       return [{ currency: "ERR" }];
     });
   },
+
+  getSuppliedFunding(currency) {
+    const apiPath = `v2/auth/r/funding/credits/f${currency}`;
+    return this.getAuthenticatedInfo(apiPath, {}).then(response => {
+      let totalAmount = 0;
+      let totalWeightedAverageRate = 0;
+      for (let offerInfo of response.response) {
+        let amount = offerInfo[5];
+        let rate = offerInfo[11] * 100;
+        totalAmount += amount;
+        totalWeightedAverageRate += (amount * rate);
+      }
+      let info = '';
+      if (totalWeightedAverageRate > 0) {
+        let averageRate = totalWeightedAverageRate / totalAmount;
+        info = `${totalAmount.toFixed(2)} ${currency} at ${averageRate.toFixed(3)}`;
+      }
+      return info;
+    }).catch(() => {
+      return 'ERR';
+    });
+    },
 
   getFreeFunding(currency) {
     const apiPath = 'v2/auth/calc/order/avail';
@@ -58,7 +82,7 @@ export default AjaxService.extend({
     };
     return this.getAuthenticatedInfo(apiPath, data).then(response => {
       let amount = Math.abs(response.response[0]);
-      if (currency == "USD") {
+      if (currency == "USD" || currency == "EUR") {
         return amount.toFixed(0);
       } else {
         return amount.toFixed(2);

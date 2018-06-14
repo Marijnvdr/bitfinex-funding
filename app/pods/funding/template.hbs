@@ -1,19 +1,24 @@
 <h2>Funding wallets</h2>
 {{#each model.fundingWallets as |wallet|}}
-  <p></p>{{wallet.currency}}: {{wallet.amount}}
+  <p>{{wallet.currency}}: {{wallet.amount}}</p>
 {{/each}}
 <hr>
 <h2>Free for funding</h2>
 {{#each model.fundingWallets as |wallet|}}
-  <p></p>{{wallet.currency}}: {{wallet.amountFree}}
+  <p>{{wallet.currency}}: {{wallet.amountFree}}</p>
 {{/each}}
 <hr>
 <h2>Open offers:</h2>
 {{#each model.fundingWallets as |wallet|}}
-  <p></p>{{wallet.currency}}: {{wallet.openOrders}}
+  <p>{{wallet.currency}}: {{wallet.openOrders}}</p>
+{{/each}}
+<hr>
+<h2>Funded average rates:</h2>
+{{#each model.fundedCurrencies as |f|}}
+  <p>{{f}}</p>
 {{/each}}
 <hr>
 <h2>Current average rates:</h2>
 {{#each model.currencyRates as |cr|}}
-  <p></p>{{cr.currency}}: {{cr.rate}}%
+  <p>{{cr.currency}}: {{cr.rate}}%</p>
 {{/each}}
