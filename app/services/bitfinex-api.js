@@ -64,7 +64,12 @@ export default AjaxService.extend({
       let info = '';
       if (totalWeightedAverageRate > 0) {
         let averageRate = totalWeightedAverageRate / totalAmount;
-        info = `${totalAmount.toFixed(2)} ${currency} at ${averageRate.toFixed(3)}`;
+        if (currency == "USD" || currency == "EUR") {
+          totalAmount = Math.round(totalAmount);
+        } else {
+          totalAmount = totalAmount.toFixed(2);
+        }
+        info = `${totalAmount} ${currency} at ${averageRate.toFixed(3)}%`;
       }
       return info;
     }).catch(() => {
@@ -120,7 +125,9 @@ export default AjaxService.extend({
       let rates = [];
       for (let currencyRate of response) {
         let rate = currencyRate[1] * 100;
-        rates.push({ currency: currencyRate[0].substr(1), rate: rate.toFixed(4) });
+        let ask = currencyRate[5] * 100;
+        let last = currencyRate[10] * 100;
+        rates.push({ currency: currencyRate[0].substr(1), rate: rate.toFixed(4), ask: ask.toFixed(4), last: last.toFixed(4) });
       }
       return rates;
     });

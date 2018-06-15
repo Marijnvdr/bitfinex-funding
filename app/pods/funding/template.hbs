@@ -20,5 +20,5 @@
 <hr>
 <h2>Current average rates:</h2>
 {{#each model.currencyRates as |cr|}}
-  <p>{{cr.currency}}: {{cr.rate}}%</p>
+  <p>{{cr.currency}}: {{cr.rate}}% (Last: {{cr.last}}% ; Ask: {{cr.ask}}%)</p>
 {{/each}}
