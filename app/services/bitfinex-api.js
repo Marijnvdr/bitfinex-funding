@@ -69,7 +69,8 @@ export default AjaxService.extend({
         } else {
           totalAmount = totalAmount.toFixed(2);
         }
-        info = `${totalAmount} ${currency} at ${averageRate.toFixed(3)}%`;
+        let yearRate = averageRate * 365;
+        info = `${totalAmount} ${currency} at ${averageRate.toFixed(3)}% (${yearRate.toFixed(1)}%)`;
       }
       return info;
     }).catch(() => {
@@ -124,10 +125,9 @@ export default AjaxService.extend({
     return this.request(`v2/tickers?symbols=${querystring}`).then((response) => {
       let rates = [];
       for (let currencyRate of response) {
-        let rate = currencyRate[1] * 100;
         let ask = currencyRate[5] * 100;
         let last = currencyRate[10] * 100;
-        rates.push({ currency: currencyRate[0].substr(1), rate: rate.toFixed(4), ask: ask.toFixed(4), last: last.toFixed(4) });
+        rates.push({ currency: currencyRate[0].substr(1), ask: ask.toFixed(4), last: last.toFixed(4) });
       }
       return rates;
     });
