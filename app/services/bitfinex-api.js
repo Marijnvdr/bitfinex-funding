@@ -70,7 +70,7 @@ export default AjaxService.extend({
           totalAmount = totalAmount.toFixed(2);
         }
         let yearRate = averageRate * 365;
-        info = `${totalAmount} ${currency} at ${averageRate.toFixed(3)}% (${yearRate.toFixed(1)}%)`;
+        info = `${totalAmount} ${currency} at ${averageRate.toFixed(4)}% (${yearRate.toFixed(1)}%)`;
       }
       return info;
     }).catch(() => {
