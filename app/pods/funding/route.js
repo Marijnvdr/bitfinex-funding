@@ -19,10 +19,12 @@ export default Route.extend({
       funded.push(await this.get('ajax').getSuppliedFunding(currency));
     }
 
+    let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'USD', 'XMR', 'XRP', 'ZEC'];
+
     return hash({
       fundingWallets: wallets,
       fundedCurrencies: funded,
-      currencyRates: await this.get('ajax').getCurrentFundingRates(currencies)
+      currencyRates: await this.get('ajax').getCurrentFundingRates(coinsBitfinexShortable)
     });
   }
 });
