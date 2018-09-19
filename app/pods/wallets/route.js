@@ -6,11 +6,6 @@ export default Route.extend({
 
   async model() {
     let wallets = await this.get('ajax').getFundingWallets();
-    let funded = [];
-    for (let wallet of wallets) {
-      funded.push(await this.get('ajax').getSuppliedFunding(wallet.currency));
-    }
-
-    return { fundedCurrencies: funded };
+    return { fundingWallets: wallets };
   }
 });

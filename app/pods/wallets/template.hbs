@@ -1,7 +1,7 @@
 <div class="layout-row layout-align-space-around-center">
   <div>
-    {{#link-to "wallets"}}
-      Wallets
+    {{#link-to "funding"}}
+      Funding
     {{/link-to}}
   </div>
 
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<h2>Funded average rates:</h2>
-{{#each model.fundedCurrencies as |f|}}
-  <p>{{f}}</p>
+<h2>Funding wallets</h2>
+{{#each model.fundingWallets as |wallet|}}
+  <p>{{wallet.currency}}: {{wallet.amount}}</p>
 {{/each}}

@@ -1,0 +1,29 @@
+<div class="layout-row layout-align-space-around-center">
+  <div>
+    {{#link-to "funding"}}
+      Funding
+    {{/link-to}}
+  </div>
+
+  <div>
+    {{#link-to "wallets"}}
+      Wallets
+    {{/link-to}}
+  </div>
+
+  <div>
+    {{#link-to "rates"}}
+      Rates
+    {{/link-to}}
+  </div>
+</div>
+
+<h2>Free for funding</h2>
+{{#each model.fundingWallets as |wallet|}}
+  <p>{{wallet.currency}}: {{wallet.amountFree}}</p>
+{{/each}}
+<hr>
+<h2>Open offers:</h2>
+{{#each model.fundingWallets as |wallet|}}
+  <p>{{wallet.currency}}: {{wallet.openOrders}}</p>
+{{/each}}

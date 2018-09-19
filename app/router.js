@@ -8,6 +8,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('funding', { path: '/' });
+  this.route('free');
+  this.route('rates');
+  this.route('wallets');
 });
 
 export default Router;

@@ -1,0 +1,24 @@
+<div class="layout-row layout-align-space-around-center">
+  <div>
+    {{#link-to "funding"}}
+      Funding
+    {{/link-to}}
+  </div>
+
+  <div>
+    {{#link-to "wallets"}}
+      Wallets
+    {{/link-to}}
+  </div>
+
+  <div>
+    {{#link-to "free"}}
+      Free
+    {{/link-to}}
+  </div>
+</div>
+
+<h2>Current average rates:</h2>
+{{#each model.currencyRates as |cr|}}
+  <p>{{cr.currency}}: Last: {{cr.last}}% ; Ask: {{cr.ask}}%</p>
+{{/each}}
