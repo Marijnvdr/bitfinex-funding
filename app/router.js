@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('free');
   this.route('rates');
   this.route('wallets');
+  this.route('margin');
 });
 
 export default Router;

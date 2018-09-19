@@ -50,33 +50,61 @@ export default AjaxService.extend({
     });
   },
 
-  getSuppliedFunding(currency) {
-    const apiPath = `v2/auth/r/funding/credits/f${currency}`;
+  getSuppliedFunding() {
+    const apiPath = 'v2/auth/r/funding/credits';
+
     return this.getAuthenticatedInfo(apiPath, {}).then(response => {
-      let totalAmount = 0;
-      let totalWeightedAverageRate = 0;
-      for (let offerInfo of response.response) {
+      let funded = [];
+      let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'SAN', 'USD', 'XMR', 'XRP', 'ZEC'];
+      for (let coin of coinsBitfinexShortable) {
+        funded.push(this.getSuppliedForCurrency(coin, response.response, 1));
+      }
+     return funded;
+    }).catch(() => {
+      return ['ERR'];
+    });
+    },
+
+    getSuppliedMargin() {
+      const apiPath = 'v2/auth/r/funding/credits';
+
+      return this.getAuthenticatedInfo(apiPath, {}).then(response => {
+        let funded = [];
+        let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'SAN', 'USD', 'XMR', 'XRP', 'ZEC'];
+        for (let coin of coinsBitfinexShortable) {
+          funded.push(this.getSuppliedForCurrency(coin, response.response, -1));
+        }
+       return funded;
+      }).catch(() => {
+        return ['ERR'];
+      });
+      },
+
+  // parameter fundingOrMargin: 1 means funding, -1 means margin
+  getSuppliedForCurrency(currency, fundings, fundingOrMargin) {
+    let totalAmount = 0;
+    let totalWeightedAverageRate = 0;
+    for (let offerInfo of fundings) {
+      if (offerInfo[1] == `f${currency}` && offerInfo[2] == fundingOrMargin && offerInfo[7] == "ACTIVE" ) {
         let amount = offerInfo[5];
         let rate = offerInfo[11] * 100;
         totalAmount += amount;
         totalWeightedAverageRate += (amount * rate);
       }
-      let info = '';
-      if (totalWeightedAverageRate > 0) {
-        let averageRate = totalWeightedAverageRate / totalAmount;
-        if (currency == "USD" || currency == "EUR") {
-          totalAmount = Math.round(totalAmount);
-        } else {
-          totalAmount = totalAmount.toFixed(2);
-        }
-        let yearRate = averageRate * 365;
-        info = `${totalAmount} ${currency} at ${averageRate.toFixed(4)}% (${yearRate.toFixed(1)}%)`;
+    }
+    let info = '';
+    if (totalWeightedAverageRate > 0) {
+      let averageRate = totalWeightedAverageRate / totalAmount;
+      if (currency == "USD" || currency == "EUR") {
+        totalAmount = Math.round(totalAmount);
+      } else {
+        totalAmount = totalAmount.toFixed(2);
       }
-      return info;
-    }).catch(() => {
-      return 'ERR';
-    });
-    },
+      let yearRate = averageRate * 365;
+      info = `${totalAmount} ${currency} at ${averageRate.toFixed(4)}% (${yearRate.toFixed(1)}%)`;
+    }
+    return info;
+  },
 
   getFreeFunding(currency) {
     const apiPath = 'v2/auth/calc/order/avail';

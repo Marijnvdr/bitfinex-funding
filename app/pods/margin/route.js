@@ -5,7 +5,7 @@ export default Route.extend({
   ajax: service('bitfinex-api'),
 
   async model() {
-    let funded = await this.get('ajax').getSuppliedFunding();
-    return { fundedCurrencies: funded };
+    let taken = await this.get('ajax').getSuppliedMargin();
+    return { takenCurrencies: taken };
   }
 });
