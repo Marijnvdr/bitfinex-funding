@@ -106,42 +106,24 @@ export default AjaxService.extend({
     return info;
   },
 
-  getFreeFunding(currency) {
-    const apiPath = 'v2/auth/calc/order/avail';
-
-    let currencySymbol = `f${currency}`;
-    const data = {
-      symbol: currencySymbol,
-      type: 'FUNDING'
-    };
-    return this.getAuthenticatedInfo(apiPath, data).then(response => {
-      let amount = Math.abs(response.response[0]);
-      if (currency == "USD" || currency == "EUR") {
-        return amount.toFixed(0);
-      } else {
-        return amount.toFixed(2);
-      }
-    }).catch(() => {
-      return 'ERR';
-    });
-  },
-
-  getActiveFundingOrders(currency) {
-    const apiPath = `v2/auth/r/funding/offers/f${currency}`;
+  getActiveFundingOrders() {
+    const apiPath = 'v2/auth/r/funding/offers';
 
     return this.getAuthenticatedInfo(apiPath, {}).then(response => {
-      let openOffers = '';
+      let openOffers = [];
       for (let offerInfo of response.response) {
         let rate = offerInfo[14] * 100;
-        openOffers = openOffers + `${offerInfo[4]} ${currency} at rate ${rate}% with status: ${offerInfo[10]} ; `;
+        let currency = offerInfo[1].substr(1); // remove the f symbol
+        let offer = `${offerInfo[4]} ${currency} at rate ${rate}% with status: ${offerInfo[10]}`;
+        openOffers.push(offer);
       }
-      if (openOffers == '') {
-        openOffers = 'none';
+      if (openOffers.length == 0) {
+        openOffers.push('none');
       }
      return openOffers;
 
     }).catch(() => {
-      return 'ERR';
+      return ['ERR'];
     });
   },
 

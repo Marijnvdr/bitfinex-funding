@@ -8,7 +8,7 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('funding', { path: '/' });
-  this.route('free');
+  this.route('open');
   this.route('rates');
   this.route('wallets');
   this.route('margin');

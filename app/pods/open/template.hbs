@@ -24,12 +24,7 @@
   </div>
 </div>
 
-<h2>Free for funding</h2>
-{{#each model.fundingWallets as |wallet|}}
-  <p>{{wallet.currency}}: {{wallet.amountFree}}</p>
-{{/each}}
-<hr>
 <h2>Open offers:</h2>
-{{#each model.fundingWallets as |wallet|}}
-  <p>{{wallet.currency}}: {{wallet.openOrders}}</p>
+{{#each model.offers as |offer|}}
+  <p>{{offer}}</p>
 {{/each}}
