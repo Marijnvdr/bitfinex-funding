@@ -1,28 +1,4 @@
-<div class="layout-row layout-align-space-around-center">
-  <div>
-    {{#link-to "funding"}}
-      Funding
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "open"}}
-      Open
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "rates"}}
-      Rates
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "margin"}}
-      Margin
-    {{/link-to}}
-  </div>
-</div>
+{{main-menu currentPage='wallets' allLinks='funding,,open,rates,margin'}}
 
 <h2>Funding wallets</h2>
 {{#each model.fundingWallets as |wallet|}}

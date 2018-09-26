@@ -1,28 +1,4 @@
-<div class="layout-row layout-align-space-around-center">
-  <div>
-    {{#link-to "funding"}}
-      Funding
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "wallets"}}
-      Wallets
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "open"}}
-      Open
-    {{/link-to}}
-  </div>
-
-  <div>
-    {{#link-to "margin"}}
-      Margin
-    {{/link-to}}
-  </div>
-</div>
+{{main-menu currentPage='rates' allLinks='funding,wallets,open,margin'}}
 
 <h2>Current average rates:</h2>
 {{#each model.currencyRates as |cr|}}
