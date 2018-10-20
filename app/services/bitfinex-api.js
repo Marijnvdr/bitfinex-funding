@@ -31,6 +31,10 @@ export default AjaxService.extend({
     });
   },
 
+  getCoinsBitfinexShortable() {
+    return ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'USD', 'XMR', 'XRP', 'ZEC', 'ZRX'];
+  },
+
   getFundingWallets() {
     const apiPath = 'v2/auth/r/wallets';
 
@@ -55,7 +59,7 @@ export default AjaxService.extend({
 
     return this.getAuthenticatedInfo(apiPath, {}).then(response => {
       let funded = [];
-      let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'SAN', 'USD', 'XMR', 'XRP', 'ZEC'];
+      let coinsBitfinexShortable = this.getCoinsBitfinexShortable();
       for (let coin of coinsBitfinexShortable) {
         funded.push(this.getSuppliedForCurrency(coin, response.response, 1));
       }
@@ -70,7 +74,7 @@ export default AjaxService.extend({
 
       return this.getAuthenticatedInfo(apiPath, {}).then(response => {
         let funded = [];
-        let coinsBitfinexShortable = ['BTC', 'BTG', 'DSH','EOS', 'ETC', 'ETH', 'ETP', 'EUR', 'IOT', 'LTC', 'NEO', 'OMG', 'SAN', 'USD', 'XMR', 'XRP', 'ZEC'];
+        let coinsBitfinexShortable = this.getCoinsBitfinexShortable();
         for (let coin of coinsBitfinexShortable) {
           funded.push(this.getSuppliedForCurrency(coin, response.response, -1));
         }
